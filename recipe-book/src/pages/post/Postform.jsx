@@ -29,7 +29,7 @@ function PostForm() {
   const nextPage = () => {
     const sanitizedContents = stripHtmlTags(contents);
     navigate(
-      `/postingredients?title=${encodeURIComponent(
+      `/posts/forms/ingredients?title=${encodeURIComponent(
         title
       )}&contents=${encodeURIComponent(sanitizedContents)}`
     );
@@ -78,10 +78,3 @@ function PostForm() {
 }
 
 export default PostForm;
-
-// 재료 등록 부분 값 받아오기..?
-// 새로고침할때 내용이 사라집니다 괜찮으신가요? 같은거 alret으로 넣기
-
-// 버튼 + 같은건 투두앱 만들었던거에서 가져오기
-// 추가는 10개까지 가능? 혹은 제한 없이..대신 무언가 선택하지 않으면(기본값)넘어가지 않도록 설정
-// 플러스 버튼 누르면 옆에 마이너스 버튼 생기게...id값 1?인거는 안생기게 하거나 하면?될듯?
