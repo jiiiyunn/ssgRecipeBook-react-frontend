@@ -19,6 +19,20 @@ function PostForm() {
 
   const { title, contents } = form;
 
+  // ReactQuill 정리
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ align: [] }],
+        ["bold", "italic", "underline", "strike"], 
+        [{ color: [] }, { background: [] }], 
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["blockquote", "link", "code-block", "image"]
+      ],
+    }
+  }
+
   const onChange = (name, value) => {
     setForm({
       ...form,
@@ -26,12 +40,10 @@ function PostForm() {
     });
   };
 
+  // 다음페이지로 넘어가기
   const nextPage = () => {
-    const sanitizedContents = stripHtmlTags(contents);
     navigate(
-      `/postingredients?title=${encodeURIComponent(
-        title
-      )}&contents=${encodeURIComponent(sanitizedContents)}`
+      `/posts/forms/ingredients?title=${encodeURIComponent(title)}&contents=${encodeURIComponent(contents)}`
     );
   };
 
@@ -42,9 +54,7 @@ function PostForm() {
       event.returnValue =
         "변경사항이 저장되지 않을 수 있습니다. 정말 페이지를 나가시겠습니까?";
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -61,27 +71,23 @@ function PostForm() {
           type="text"
           name="title"
           value={title}
-          onChange={(e) => onChange("title", e.target.value)}
-        />
+          style={{ width: "99%" }}
+          onChange={(e) => onChange("title", e.target.value)}/> 
 
         <div>레시피 내용</div>
         <ReactQuill
           value={contents}
           onChange={(value) => onChange("contents", value)}
-        />
-        <hr />
+          modules={modules} 
+          style={{ height: "400px", width: "100%" }} // 에디터의 높이와 너비 설정
+          />
 
-        <button onClick={nextPage}>다음</button>
+        <button style={{ marginTop: "50px" }} onClick={nextPage}>
+          다음</button>
       </div>
+      
     </>
   );
 }
 
 export default PostForm;
-
-// 재료 등록 부분 값 받아오기..?
-// 새로고침할때 내용이 사라집니다 괜찮으신가요? 같은거 alret으로 넣기
-
-// 버튼 + 같은건 투두앱 만들었던거에서 가져오기
-// 추가는 10개까지 가능? 혹은 제한 없이..대신 무언가 선택하지 않으면(기본값)넘어가지 않도록 설정
-// 플러스 버튼 누르면 옆에 마이너스 버튼 생기게...id값 1?인거는 안생기게 하거나 하면?될듯?
